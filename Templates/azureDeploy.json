@@ -4,7 +4,7 @@
   "parameters": {
     "assetLocation": {
       "type": "string",
-      "defaultValue": "https://raw.githubusercontent.com/nromyn/azure-adfs-template/master/",
+      "defaultValue": "https://raw.githubusercontent.com/stephgou/azure-adfs-template/master/",
       "metadata": {"description": "This is the location in which all the linked templates are stored."}
     },
     "adminUsername": {
@@ -335,6 +335,7 @@
           "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
           "numberofVMInstances": { "value": "[parameters('numberofVMInstances')]" },
           "publicIPAddressDNSName": { "value": "[variables('publicIPAddressDNSName')]" },
+          "publicIPAdfsAddressName": { "value": "[variables('publicIPAdfsAddressName')]" },
           "rdpIPAddressDNSName": { "value": "[variables('rdpIPAddressDNSName')]" },
           "storageaccountname": { "value": "[parameters('storageAccountName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
