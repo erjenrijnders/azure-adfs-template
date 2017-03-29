@@ -2,32 +2,6 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "location": {
-      "type": "string",
-      "allowedValues": [
-        "Central US",
-        "East US",
-        "East US2",
-        "North Central US",
-        "South Central US",
-        "West US",
-        "North Europe",
-        "West Europe",
-        "East Asia",
-        "Southeast Asia",
-        "Japan East",
-        "Japan West",
-        "Brazil South",
-        "Australia East",
-        "Australia Southeast",
-        "Central India",
-        "South India",
-        "West India"
-      ],
-      "metadata": {
-        "Description": "The region to deploy the resources into"
-      }
-    },
     "companyNamePrefix": {
       "type": "string",
       "defaultValue": "Contoso",
@@ -77,7 +51,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('adNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "adNSG"
       },
@@ -471,7 +445,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('adfsNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "adfsNSG"
       },
@@ -513,7 +487,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('DMZNSGName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "DMZNSG"
       },
@@ -609,7 +583,7 @@
     {
       "name": "[variables('virtualNetworkName')]",
       "type": "Microsoft.Network/virtualNetworks",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": { "displayName": "virtualNetwork" },
       "dependsOn": [
         "[concat('Microsoft.Network/networkSecurityGroups/', variables('adNSGName'))]",

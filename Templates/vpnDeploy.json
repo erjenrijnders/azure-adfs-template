@@ -58,32 +58,6 @@
         "description": "Aribtary name for gateway resource representing "
       }
     },
-    "location": {
-      "type": "string",
-      "metadata": {
-        "description": "Region where the resources will be deployed"
-      },
-      "allowedValues": [
-        "Central US",
-        "East US",
-        "East US2",
-        "North Central US",
-        "South Central US",
-        "West US",
-        "North Europe",
-        "West Europe",
-        "East Asia",
-        "Southeast Asia",
-        "Japan East",
-        "Japan West",
-        "Brazil South",
-        "Australia East",
-        "Australia Southeast",
-        "Central India",
-        "South India",
-        "West India"
-      ]
-    },
     "sharedKey": {
       "type": "string",
       "metadata": {
@@ -130,25 +104,25 @@
     "api-version": "2015-06-15"
   },
   "resources": [
-    {
-      "apiVersion": "[variables('api-version')]",
-      "type": "Microsoft.Network/localNetworkGateways",
-      "name": "[parameters('localGatewayName')]",
-      "location": "[parameters('location')]",
-      "properties": {
-        "localNetworkAddressSpace": {
-          "addressPrefixes": [
-            "[parameters('localAddressPrefix')]"
-          ]
-        },
-        "gatewayIpAddress": "[parameters('localGatewayIpAddress')]"
-      }
-    },
+    //{
+    //  "apiVersion": "[variables('api-version')]",
+    //  "type": "Microsoft.Network/localNetworkGateways",
+    //  "name": "[parameters('localGatewayName')]",
+    //  "location": "[parameters('location')]",
+    //  "properties": {
+    //    "localNetworkAddressSpace": {
+    //      "addressPrefixes": [
+    //        "[parameters('localAddressPrefix')]"
+    //      ]
+    //    },
+    //    "gatewayIpAddress": "[parameters('localGatewayIpAddress')]"
+    //  }
+    //},
     {
       "apiVersion": "[variables('api-version')]",
       "name": "[parameters('connectionName')]",
       "type": "Microsoft.Network/connections",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/virtualNetworkGateways/', parameters('gatewayName'))]",
         "[concat('Microsoft.Network/localNetworkGateways/', parameters('localGatewayName'))]"
@@ -169,7 +143,7 @@
       "apiVersion": "[variables('api-version')]",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('virtualNetworkName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -196,7 +170,7 @@
       "apiVersion": "[variables('api-version')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('gatewayPublicIPName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "properties": {
         "publicIPAllocationMethod": "Dynamic"
       }
@@ -205,7 +179,7 @@
       "apiVersion": "[variables('api-version')]",
       "type": "Microsoft.Network/virtualNetworkGateways",
       "name": "[parameters('gatewayName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', parameters('gatewayPublicIPName'))]",
         "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"

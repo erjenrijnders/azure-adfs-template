@@ -34,32 +34,6 @@
     "assetLocation": {
       "type": "string"
     },
-    "location": {
-      "type": "string",
-      "allowedValues": [
-        "Central US",
-        "East US",
-        "East US2",
-        "North Central US",
-        "South Central US",
-        "West US",
-        "North Europe",
-        "West Europe",
-        "East Asia",
-        "Southeast Asia",
-        "Japan East",
-        "Japan West",
-        "Brazil South",
-        "Australia East",
-        "Australia Southeast",
-        "Central India",
-        "South India",
-        "West India"
-      ],
-      "metadata": {
-        "Description": "The region to deploy the resources into"
-      }
-    },
     "NetworkInterfaceName": {
       "type": "string",
       "defaultValue": "NIC",
@@ -102,17 +76,17 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adAvailabilitySetName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "adAvailabilitySet"
       },
-      "properties": { }
+      "properties": {}
     },
     {
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat('ad-',parameters('NetworkInterfaceName'), copyindex())]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": { "displayName": "adNICs" },
       "copy": {
         "name": "nicLoop",
@@ -143,7 +117,7 @@
         "name": "virtualMachineLoop",
         "count": 2
       },
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": { "displayName": "adVirtualMachines" },
       "dependsOn": [
         "[concat('Microsoft.Network/networkInterfaces/', 'ad-', parameters('NetworkInterfaceName'), copyindex())]",
@@ -191,33 +165,34 @@
           }
         }
       },
-     "resources": [
-      {
-        "name": "adDSCConfiguration",
-        "type": "extensions",
-        "location": "[parameters('location')]",
-        "apiVersion": "2015-06-15",
-        "dependsOn": [
-          "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adVMName'), copyindex()))]"
-        ],
-        "tags": {
-          "displayName": "adDSCConfiguration"
-        },
-        "properties": {
-          "publisher": "Microsoft.Powershell",
-          "type": "DSC",
-          "typeHandlerVersion": "2.9",
-          "autoUpgradeMinorVersion": true,
-          "settings": {
-            "modulesUrl": "[variables('adDSCTemplate')]",
-            "configurationFunction": "[variables('adDSCConfigurationFunction')]",
-            "properties": {
-              "nodeName": "[concat(parameters('adVMName'), copyindex())]"
-            }
+      "resources": [
+        {
+          "name": "adDSCConfiguration",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "2015-06-15",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adVMName'), copyindex()))]"
+          ],
+          "tags": {
+            "displayName": "adDSCConfiguration"
           },
-          "protectedSettings": { }
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "[variables('adDSCTemplate')]",
+              "configurationFunction": "[variables('adDSCConfigurationFunction')]",
+              "properties": {
+                "nodeName": "[concat(parameters('adVMName'), copyindex())]"
+              }
+            },
+            "protectedSettings": {}
+          }
         }
-      }
-      ]    }
+      ]
+    }
   ]
 }

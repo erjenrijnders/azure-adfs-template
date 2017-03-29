@@ -7,30 +7,6 @@
       "defaultValue": "https://raw.githubusercontent.com/nromyn/azure-adfs-template/master/",
       "metadata": {"description": "This is the location in which all the linked templates are stored."}
     },
-    "location": {
-      "type": "string",
-      "allowedValues": [
-        "Central US",
-        "East US",
-        "East US2",
-        "North Central US",
-        "South Central US",
-        "West US",
-        "North Europe",
-        "West Europe",
-        "East Asia",
-        "Southeast Asia",
-        "Japan East",
-        "Japan West",
-        "Brazil South",
-        "Australia East",
-        "Australia Southeast",
-        "Central India",
-        "South India",
-        "West India"
-      ],
-      "metadata": { "description": "The region to deploy the resources into" }
-    },
     "adminUsername": {
       "type": "string",
       "defaultValue": "localAdmin",
@@ -51,7 +27,6 @@
     },
     "companyNamePrefix": {
       "type": "string",
-      "defaultValue": "Contoso",
       "metadata": { "description": "This is used to prefix the names of the resources created." }
     },
     "addcVMNameSuffix": {
@@ -184,6 +159,7 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageSKU": "2012-R2-Datacenter",
     "publicIPAddressDNSName": "[tolower(concat(parameters('companyNamePrefix'),'-adfs'))]",
+    "publicIPAdfsAddressName": "[tolower(concat(parameters('companyNamePrefix'),'-pipadfs'))]",
     "connectionName": "[tolower(concat(parameters('companyNamePrefix'),'-VPN'))]",
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressDNSname'))]",
     "rdpIPAddressDNSName": "[tolower(concat(parameters('companyNamePrefix'),'-adfs-rdp'))]",
@@ -244,7 +220,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Storage/storageAccounts",
       "name": "[tolower(parameters('storageAccountName'))]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "StorageAccount"
       },
@@ -260,7 +236,6 @@
         "mode": "Incremental",
         "templateLink": { "uri": "[variables('vnetTemplateURI')]" },
         "parameters": {
-          "location": { "value": "[parameters('location')]" },
           "companyNamePrefix": { "value": "[parameters('companyNamePrefix')]" },
           "subnets": { "value": "[ variables('subnets') ]" },
           "virtualNetworkAddressRange": { "value": "[parameters('virtualNetworkAddressRange')]" },
@@ -281,12 +256,30 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressDNSName')]",
-      "location": "[parameters('location')]",
-      "tags": { "displayName": "publicIPAddress" },
+      "location": "[resourceGroup().location]",
+      "tags": { "displayName": "publicIPAddressDNS" },
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
           "domainNameLabel": "[variables('publicIPAddressDNSName')]"
+        }
+      }
+    },
+    {
+
+      "apiVersion": "2015-06-15",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(variables('publicIPAdfsAddressName'),copyindex())]",
+      "copy": {
+        "name": "virtualMachineLoop",
+        "count": "[parameters('numberofVMInstances')]"
+      },
+      "location": "[resourceGroup().location]",
+      "tags": { "displayName": "publicIPAdfsAddress" },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[concat(variables('publicIPAdfsAddressName'),copyindex())]"
         }
       }
     },
@@ -308,7 +301,6 @@
           "adminUsername": { "value": "[parameters('adminUsername')]" },
           "adVMName": { "value": "[variables('adVMName')]" },
           "assetlocation": { "value": "[parameters('assetLocation')]" },
-          "location": { "value": "[parameters('location')]" },
           "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
           "storageaccountname": { "value": "[parameters('storageAccountName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
@@ -323,7 +315,9 @@
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', parameters('storageAccountName'))]",
         "Microsoft.Resources/Deployments/virtualNetwork",
-        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressDNSName'))]"
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressDNSName'))]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAdfsAddressName'), 0)]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAdfsAddressName'), 1)]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -338,7 +332,6 @@
           "dmzNSGName": { "value": "[variables('dmzNSGName')]" },
           "adfsNSGName": { "value": "[variables('adfsNSGName')]" },
           "ilbIP": { "value": "[parameters('ilbIP')]" },
-          "location": { "value": "[parameters('location')]" },
           "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
           "numberofVMInstances": { "value": "[parameters('numberofVMInstances')]" },
           "publicIPAddressDNSName": { "value": "[variables('publicIPAddressDNSName')]" },

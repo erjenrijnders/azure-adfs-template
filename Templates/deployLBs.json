@@ -5,7 +5,6 @@
     "adfsLoadBalancerName": { "type": "string" },
     "adfsSubnetID": { "type": "string" },
     "ilbIP": { "type": "string" },
-    "location": { "type": "string" },
     "numberofVMInstances": { "type": "int" },
     "publicIPAddressDNSName": { "type": "string" },
     "publicIPAddressID": { "type": "string" },
@@ -16,7 +15,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[parameters('adfsLoadBalancerName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": { "displayName": "adfsLB" },
       "properties": {
         "frontendIPConfigurations": [
@@ -76,7 +75,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[parameters('wapLoadBalancerName')]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": { "displayName": "wapLB" },
       "properties": {
         "frontendIPConfigurations": [
@@ -135,7 +134,7 @@
       "apiVersion": "2015-06-15",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
       "name": "[concat(parameters('wapLoadBalancerName'), '/', 'RDP-VM', copyIndex())]",
-      "location": "[parameters('location')]",
+      "location": "[resourceGroup().location]",
       "tags": { "displayName": "inboundNATRuleRDP" },
       "copy": {
         "name": "lbNatLoop",
