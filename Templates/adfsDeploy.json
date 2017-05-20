@@ -73,6 +73,12 @@
     "rdpIPAddressDNSName": {
       "type": "string"
     },
+    "diagnosticStorageAccountName": {
+      "type": "string",
+      "metadata": {
+        "description": "Storage account name"
+      }
+    },
     "virtualNetworkName": {
       "type": "string",
       "defaultValue": "vnet"
@@ -366,7 +372,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+            "storageUri": "[concat('http://',parameters('diagnosticStorageAccountName'),'.blob.core.windows.net')]"
           }
         }
       },
@@ -448,7 +454,7 @@
         "diagnosticsProfile": {
           "bootDiagnostics": {
             "enabled": "true",
-            "storageUri": "[concat('http://',parameters('storageAccountName'),'.blob.core.windows.net')]"
+            "storageUri": "[concat('http://',parameters('diagnosticStorageAccountName'),'.blob.core.windows.net')]"
           }
         }
       }
