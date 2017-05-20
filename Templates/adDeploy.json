@@ -77,6 +77,9 @@
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Aligned"
+      },
       "tags": {
         "displayName": "adAvailabilitySet"
       },

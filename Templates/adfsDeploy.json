@@ -123,6 +123,9 @@
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adfsAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Aligned"
+      },
       "tags": {
         "displayName": "adfsAvailabilitySet"
       },
@@ -133,6 +136,9 @@
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('wapAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
+      "sku": {
+        "name": "Aligned"
+      },
       "tags": {
         "displayName": "wapAvailabilitySet"
       },
