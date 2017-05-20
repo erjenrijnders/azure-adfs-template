@@ -73,12 +73,6 @@
     "rdpIPAddressDNSName": {
       "type": "string"
     },
-    "storageAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Storage account name"
-      }
-    },
     "virtualNetworkName": {
       "type": "string",
       "defaultValue": "vnet"

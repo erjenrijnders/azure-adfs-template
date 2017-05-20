@@ -41,12 +41,6 @@
         "description": "This is the prefix name of the Network interfaces"
       }
     },
-    "storageAccountName": {
-      "type": "string",
-      "metadata": {
-        "description": "Storage account name"
-      }
-    },
     "virtualNetworkName": {
       "type": "string",
       "defaultValue": "vnet"
