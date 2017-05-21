@@ -321,6 +321,43 @@
           "vmSize": { "value": "[parameters('vmSize')]" }
         }
       }
+    },
+
+
+    {
+      "name": "adfsVMs",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('diagnosticStorageAccountName'))]",
+        "Microsoft.Resources/Deployments/virtualNetwork",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('pIPAddressWapName'))]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('rdpIPAddressAdfsName'), 0)]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('rdpIPAddressAdfsName'), 1)]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": { "uri": "[variables('adfsTemplateURI')]" },
+        "parameters": {
+          "adfsSubnetName": { "value": "[variables('adfsSubnetName')]" },
+          "adfsVMName": { "value": "[variables('adfsVMName')]" },
+          "adminPassword": { "value": "[parameters('adminPassword')]" },
+          "adminUsername": { "value": "[parameters('adminUsername')]" },
+          "assetlocation": { "value": "[parameters('assetLocation')]" },
+          "dmzSubnetName": { "value": "[variables('dmzSubnetName')]" },
+          "dmzNSGName": { "value": "[variables('dmzNSGName')]" },
+          "adfsNSGName": { "value": "[variables('adfsNSGName')]" },
+          "ilbIP": { "value": "[parameters('ilbIP')]" },
+          "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
+          "numberofVMInstances": { "value": "[parameters('numberofVMInstances')]" },
+          "pIPAddressWapName": { "value": "[variables('pIPAddressWapName')]" },
+          "rdpIPAddressAdfsName": { "value": "[variables('rdpIPAddressAdfsName')]" },
+          "diagnosticStorageAccountName": { "value": "[variables('diagnosticStorageAccountName')]" },
+          "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "vmSize": { "value": "[parameters('vmSize')]" },
+          "wapVMName": { "value": "[variables('wapVMName')]" }
+        }
+      }
     }
   ]
 }
