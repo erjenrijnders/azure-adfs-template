@@ -115,11 +115,13 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "wapDSCTemplate": "[concat(parameters('assetLocation'),'/DSC/wapDSCConfiguration.ps1')]",
     "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
-    "apiVersion": "2017-05-10"
+    "apiVersion": "2017-05-10",
+    "networkApiVersion": "2017-04-01",
+    "availabilitySetApiVersion": "2017-03-01"
   },
   "resources": [
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('availabilitySetApiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adfsAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -132,7 +134,7 @@
       "properties": {}
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('availabilitySetApiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('wapAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -145,10 +147,9 @@
       "properties": {
 
       }
-
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[parameters('adfsLoadBalancerName')]",
       "location": "[resourceGroup().location]",
@@ -172,8 +173,6 @@
             "name": "ADFSLBBE"
           }
         ],
-
-
         "loadBalancingRules": [
           {
             "name": "ADFSLBRules",
@@ -208,7 +207,7 @@
       }
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[parameters('wapLoadBalancerName')]",
       "location": "[resourceGroup().location]",
@@ -263,7 +262,7 @@
       }
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat('adfs-',parameters('NetworkInterfaceName'), copyindex())]",
       "location": "[resourceGroup().location]",
@@ -298,7 +297,7 @@
       }
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat('wap-',parameters('NetworkInterfaceName'), copyindex())]",
       "location": "[resourceGroup().location]",

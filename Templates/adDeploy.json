@@ -68,11 +68,13 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageSKU": "2012-R2-Datacenter",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "apiVersion": "2017-05-10"
+    "apiVersion": "2017-05-10",
+    "networkApiVersion": "2017-04-01",
+    "availabilitySetApiVersion": "2017-03-01"
   },
   "resources": [
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('availabilitySetApiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -85,7 +87,7 @@
       "properties": {}
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat('ad-',parameters('NetworkInterfaceName'), copyindex())]",
       "location": "[resourceGroup().location]",
