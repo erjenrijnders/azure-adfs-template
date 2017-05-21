@@ -150,7 +150,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
+            "name": "[concat(parameters('advmName'),'-osDisk-', copyIndex())]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }

@@ -366,7 +366,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
+            "name": "[concat(parameters('adfsVMName'),'-osDisk-', copyIndex())]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
@@ -448,7 +448,7 @@
             "version": "latest"
           },
           "osDisk": {
-            "name": "osdisk",
+            "name": "[concat(parameters('wapVMName'),'-osDisk-', copyIndex())]",
             "caching": "ReadWrite",
             "createOption": "FromImage"
           }
