@@ -70,7 +70,7 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "apiVersion": "2017-05-10",
     "networkApiVersion": "2017-04-01",
-    "availabilitySetApiVersion": "2017-03-01"
+    "availabilitySetApiVersion": "2017-03-30"
   },
   "resources": [
     {
