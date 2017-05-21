@@ -84,7 +84,10 @@
       "tags": {
         "displayName": "adAvailabilitySet"
       },
-      "properties": {}
+      "properties": {
+        "platformUpdateDomainCount": 5,
+        "platformFaultDomainCount": 3
+      }
     },
     {
       "apiVersion": "[variables('networkApiVersion')]",
