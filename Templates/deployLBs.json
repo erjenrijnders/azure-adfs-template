@@ -11,7 +11,7 @@
     "wapLoadBalancerName": { "type": "string" }
   },
   "variables": {
-    "apiVersion": "2017-05-10"
+    "apiVersion": "2017-04-01"
   },
   "resources": [
     {

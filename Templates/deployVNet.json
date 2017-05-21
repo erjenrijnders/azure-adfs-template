@@ -160,7 +160,7 @@
     "dhcpIPs": [ "10.0.1.4", "10.0.1.5" ],
     "virtualNetworkName": "[concat(parameters('companyNamePrefix'), '-vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "apiVersion": "2017-05-10"
+    "apiVersion": "2017-04-01"
   },
   "resources": [
     {
