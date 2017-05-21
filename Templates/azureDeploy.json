@@ -153,11 +153,10 @@
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageSKU": "2012-R2-Datacenter",
-    "publicIPAddressDNSName": "[tolower(concat(parameters('companyNamePrefix'),'-adfs'))]",
-    "publicIPAdfsAddressName": "[tolower(concat(parameters('companyNamePrefix'),'-pipadfs'))]",
+    "rdpIPAddressAdName": "[tolower(concat(parameters('companyNamePrefix'),'-rdp-ad'))]",
+    "rdpIPAddressAdfsName": "[tolower(concat(parameters('companyNamePrefix'),'-rdp-adfs'))]",
+    "pIPAddressWapName": "[tolower(concat(parameters('companyNamePrefix'),'-pip-wap'))]",
     "connectionName": "[tolower(concat(parameters('companyNamePrefix'),'-VPN'))]",
-    "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressDNSname'))]",
-    "rdpIPAddressDNSName": "[tolower(concat(parameters('companyNamePrefix'),'-adfs-rdp'))]",
     "diagnosticStorageAccountName": "[replace(replace(tolower(concat(parameters('companyNamePrefix'), uniquestring(resourceGroup().id))), '-',''),'.','')]",
     "storageAccountType": "Standard_GRS",
     "subnets": [
@@ -251,30 +250,47 @@
     {
       "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[variables('publicIPAddressDNSName')]",
+      "name": "[variables('pIPAddressWapName')]",
       "location": "[resourceGroup().location]",
-      "tags": { "displayName": "publicIPAddressDNS" },
+      "tags": { "displayName": "pIPAddressWapName" },
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[variables('publicIPAddressDNSName')]"
+          "domainNameLabel": "[variables('pIPAddressWapName')]"
         }
       }
     },
     {
       "apiVersion": "[variables('networkApiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
-      "name": "[concat(variables('publicIPAdfsAddressName'),copyindex())]",
+      "name": "[concat(variables('rdpIPAddressAdName'),copyindex())]",
       "copy": {
         "name": "virtualMachineLoop",
         "count": "[parameters('numberofVMInstances')]"
       },
       "location": "[resourceGroup().location]",
-      "tags": { "displayName": "publicIPAdfsAddress" },
+      "tags": { "displayName": "rdpIPAddressAdName" },
       "properties": {
         "publicIPAllocationMethod": "Dynamic",
         "dnsSettings": {
-          "domainNameLabel": "[concat(variables('publicIPAdfsAddressName'),copyindex())]"
+          "domainNameLabel": "[concat(variables('rdpIPAddressAdName'),copyindex())]"
+        }
+      }
+    },
+    {
+      "apiVersion": "[variables('networkApiVersion')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(variables('rdpIPAddressAdfsName'),copyindex())]",
+      "copy": {
+        "name": "virtualMachineLoop",
+        "count": "[parameters('numberofVMInstances')]"
+      },
+      "location": "[resourceGroup().location]",
+      "tags": { "displayName": "rdpIPAddressAdfsName" },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic",
+        "dnsSettings": {
+          "domainNameLabel": "[concat(variables('rdpIPAddressAdfsName'),copyindex())]"
         }
       }
     },
@@ -284,7 +300,9 @@
       "type": "Microsoft.Resources/deployments",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('diagnosticStorageAccountName'))]",
-        "Microsoft.Resources/Deployments/virtualNetwork"
+        "Microsoft.Resources/Deployments/virtualNetwork",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('rdpIPAddressAdName'), 0)]",
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('rdpIPAddressAdName'), 1)]"
       ],
       "properties": {
         "mode": "Incremental",
@@ -299,6 +317,7 @@
           "networkInterfaceName": { "value": "[parameters('NetworkInterfaceName')]" },
           "diagnosticStorageAccountName": { "value": "[variables('diagnosticStorageAccountName')]" },
           "virtualNetworkName": { "value": "[variables('virtualNetworkName')]" },
+          "rdpIPAddressAdName": { "value": "[variables('rdpIPAddressAdName')]" },
           "vmSize": { "value": "[parameters('vmSize')]" }
         }
       }

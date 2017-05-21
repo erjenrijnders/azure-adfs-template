@@ -51,10 +51,6 @@
       "defaultValue": "10.0.2.10",
       "metadata": { "description": "The IP used for the ADFS Load Balancer (Internal)" }
     },
-    "publicIPAdfsAddressName": {
-      "type": "string",
-      "metadata": { "description": "PIP ADFS Address Name prefix" }
-    },
     "NetworkInterfaceName": {
       "type": "string",
       "defaultValue": "NIC",
@@ -67,11 +63,13 @@
       "defaultValue": 2,
       "metadata": { "description": "The number of ADFS and WAP VMs to build" }
     },
-    "publicIPAddressDNSName": {
-      "type": "string"
+    "pIPAddressWapName": {
+      "type": "string",
+      "metadata": { "description": "PIP WAP Address Name prefix" }
     },
-    "rdpIPAddressDNSName": {
-      "type": "string"
+    "rdpIPAddressAdfsName": {
+      "type": "string",
+      "metadata": { "description": "PIP ADFS Address Name prefix" }
     },
     "diagnosticStorageAccountName": {
       "type": "string",
@@ -224,7 +222,7 @@
             "name": "WAPLBFE",
             "properties": {
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('publicIPAddressDNSname'))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses',parameters('pIPAddressWapName'))]"
               }
             }
           }
@@ -289,7 +287,7 @@
               ],
               "privateIPAllocationMethod": "Dynamic",
               "publicIPAddress": {
-                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('publicIPAdfsAddressName'), copyindex()))]"
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('rdpIPAddressAdfsName'), copyindex()))]"
               },
               "subnet": {
                 "id": "[variables('adfsSubnetID')]"
