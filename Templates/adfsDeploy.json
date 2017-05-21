@@ -115,7 +115,6 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "wapDSCTemplate": "[concat(parameters('assetLocation'),'/DSC/wapDSCConfiguration.ps1')]",
     "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
-    "apiVersion": "2017-05-10",
     "networkApiVersion": "2017-04-01",
     "computeApiVersion": "2017-03-30"
   },
@@ -387,7 +386,7 @@
       },
       "resources": [
         {
-          "apiVersion": "[variables('apiVersion')]",
+          "apiVersion": "[variables('computeApiVersion')]",
           "name": "adfsDSCConfiguration",
           "type": "extensions",
           "location": "[resourceGroup().location]",

@@ -68,7 +68,6 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageSKU": "2012-R2-Datacenter",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "apiVersion": "2017-05-10",
     "networkApiVersion": "2017-04-01",
     "computeApiVersion": "2017-03-30"
   },
@@ -171,7 +170,7 @@
       },
       "resources": [
         {
-          "apiVersion": "[variables('apiVersion')]",
+          "apiVersion": "[variables('computeApiVersion')]",
           "name": "adDSCConfiguration",
           "type": "extensions",
           "location": "[resourceGroup().location]",
