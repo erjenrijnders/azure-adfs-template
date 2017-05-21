@@ -68,9 +68,9 @@
     "imagePublisher": "MicrosoftWindowsServer",
     "imageSKU": "2012-R2-Datacenter",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
-    "apiVersion": "2016-04-30-preview"
+    "apiVersion": "2017-05-10"
   },
-   "resources": [
+  "resources": [
     {
       "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",

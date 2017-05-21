@@ -115,9 +115,8 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "wapDSCTemplate": "[concat(parameters('assetLocation'),'/DSC/wapDSCConfiguration.ps1')]",
     "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
-    "apiVersion": "2016-04-30-preview"
+    "apiVersion": "2017-05-10"
   },
-
   "resources": [
     {
       "apiVersion": "[variables('apiVersion')]",

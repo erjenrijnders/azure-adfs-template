@@ -113,7 +113,7 @@
         "description": "Arbitrary name for the new connection between Azure VNet and other network"
       }
     },
-  "gatewaySku": {
+    "gatewaySku": {
       "type": "string",
       "defaultValue": "Basic",
       "allowedValues": [
@@ -160,7 +160,7 @@
     "dhcpIPs": [ "10.0.1.4", "10.0.1.5" ],
     "virtualNetworkName": "[concat(parameters('companyNamePrefix'), '-vnet')]",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-    "apiVersion": "2016-04-30-preview"
+    "apiVersion": "2017-05-10"
   },
   "resources": [
     {
