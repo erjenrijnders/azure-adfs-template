@@ -117,11 +117,11 @@
     "wapDSCConfigurationFunction": "wapDSCConfiguration.ps1\\Main",
     "apiVersion": "2017-05-10",
     "networkApiVersion": "2017-04-01",
-    "availabilitySetApiVersion": "2017-03-30"
+    "computeApiVersion": "2017-03-30"
   },
   "resources": [
     {
-      "apiVersion": "[variables('availabilitySetApiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adfsAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -137,7 +137,7 @@
       }
     },
     {
-      "apiVersion": "[variables('availabilitySetApiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('wapAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -333,7 +333,7 @@
       }
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(parameters('adfsVMName'), copyindex())]",
       "copy": {
@@ -415,7 +415,7 @@
       ]
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(parameters('wapVMName'), copyindex())]",
       "copy": {

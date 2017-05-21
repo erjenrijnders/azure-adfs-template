@@ -70,11 +70,11 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "apiVersion": "2017-05-10",
     "networkApiVersion": "2017-04-01",
-    "availabilitySetApiVersion": "2017-03-30"
+    "computeApiVersion": "2017-03-30"
   },
   "resources": [
     {
-      "apiVersion": "[variables('availabilitySetApiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -117,7 +117,7 @@
       }
     },
     {
-      "apiVersion": "[variables('apiVersion')]",
+      "apiVersion": "[variables('computeApiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(parameters('advmName'), copyindex())]",
       "copy": {
