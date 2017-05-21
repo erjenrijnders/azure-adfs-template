@@ -101,11 +101,11 @@
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
     "gatewaySubnetRef": "[concat(variables('vnetID'),'/subnets/','GatewaySubnet')]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
-    "api-version": "2015-06-15"
+    "apiVersion": "2016-04-30-preview"
   },
   "resources": [
     //{
-    //  "apiVersion": "[variables('api-version')]",
+    //  "apiVersion": "[variables('apiVersion')]",
     //  "type": "Microsoft.Network/localNetworkGateways",
     //  "name": "[parameters('localGatewayName')]",
     //  "location": "[parameters('location')]",
@@ -119,7 +119,7 @@
     //  }
     //},
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "[variables('apiVersion')]",
       "name": "[parameters('connectionName')]",
       "type": "Microsoft.Network/connections",
       "location": "[resourceGroup().location]",
@@ -140,7 +140,7 @@
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/virtualNetworks",
       "name": "[parameters('virtualNetworkName')]",
       "location": "[resourceGroup().location]",
@@ -167,7 +167,7 @@
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[parameters('gatewayPublicIPName')]",
       "location": "[resourceGroup().location]",
@@ -176,7 +176,7 @@
       }
     },
     {
-      "apiVersion": "[variables('api-version')]",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/virtualNetworkGateways",
       "name": "[parameters('gatewayName')]",
       "location": "[resourceGroup().location]",

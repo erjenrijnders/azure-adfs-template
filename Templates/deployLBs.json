@@ -10,9 +10,12 @@
     "publicIPAddressID": { "type": "string" },
     "wapLoadBalancerName": { "type": "string" }
   },
+  "variables": {
+    "apiVersion": "2016-04-30-preview"
+  },
   "resources": [
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[parameters('adfsLoadBalancerName')]",
       "location": "[resourceGroup().location]",
@@ -35,8 +38,6 @@
             "name": "backendPool1"
           }
         ],
-
-
         "loadBalancingRules": [
           {
             "name": "ADFSLBRules",
@@ -72,7 +73,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/loadBalancers",
       "name": "[parameters('wapLoadBalancerName')]",
       "location": "[resourceGroup().location]",
@@ -131,7 +132,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/loadBalancers/inboundNatRules",
       "name": "[concat(parameters('wapLoadBalancerName'), '/', 'RDP-VM', copyIndex())]",
       "location": "[resourceGroup().location]",

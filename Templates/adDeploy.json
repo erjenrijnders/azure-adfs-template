@@ -67,13 +67,12 @@
     "imageOffer": "WindowsServer",
     "imagePublisher": "MicrosoftWindowsServer",
     "imageSKU": "2012-R2-Datacenter",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]"
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+    "apiVersion": "2016-04-30-preview"
   },
- 
-
-  "resources": [
+   "resources": [
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Compute/availabilitySets",
       "name": "[parameters('adAvailabilitySetName')]",
       "location": "[resourceGroup().location]",
@@ -86,7 +85,7 @@
       "properties": {}
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat('ad-',parameters('NetworkInterfaceName'), copyindex())]",
       "location": "[resourceGroup().location]",
@@ -113,7 +112,7 @@
       }
     },
     {
-      "apiVersion": "2016-04-30-preview",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Compute/virtualMachines",
       "name": "[concat(parameters('advmName'), copyindex())]",
       "copy": {
@@ -167,10 +166,10 @@
       },
       "resources": [
         {
+          "apiVersion": "[variables('apiVersion')]",
           "name": "adDSCConfiguration",
           "type": "extensions",
           "location": "[resourceGroup().location]",
-          "apiVersion": "2015-06-15",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', concat(parameters('adVMName'), copyindex()))]"
           ],

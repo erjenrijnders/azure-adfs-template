@@ -42,13 +42,13 @@
     "adSubnetId": "[concat(variables('vnetID'),'/subnets/',variables ('adSubnetName'))]",
     "dhcpIPs": [ "10.0.1.4", "10.0.1.5" ],
     "virtualNetworkName": "[concat(parameters('companyNamePrefix'), '-vnet')]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]"
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "apiVersion": "2016-04-30-preview"
   },
 
   "resources": [
     {
-
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('adNSGName')]",
       "location": "[resourceGroup().location]",
@@ -442,7 +442,7 @@
       }
     },
     {
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('adfsNSGName')]",
       "location": "[resourceGroup().location]",
@@ -483,8 +483,7 @@
       }
     },
     {
-
-      "apiVersion": "2015-06-15",
+      "apiVersion": "[variables('apiVersion')]",
       "type": "Microsoft.Network/networkSecurityGroups",
       "name": "[variables('DMZNSGName')]",
       "location": "[resourceGroup().location]",
@@ -581,6 +580,7 @@
       }
     },
     {
+      "apiVersion": "[variables('apiVersion')]",
       "name": "[variables('virtualNetworkName')]",
       "type": "Microsoft.Network/virtualNetworks",
       "location": "[resourceGroup().location]",
@@ -590,7 +590,6 @@
         "[concat('Microsoft.Network/networkSecurityGroups/', variables('dmzNSGName'))]",
         "[concat('Microsoft.Network/networkSecurityGroups/', variables('adfsNSGName'))]"
       ],
-      "apiVersion": "2015-06-15",
       "properties": {
         "addressSpace": {
           "addressPrefixes": [
@@ -604,5 +603,4 @@
       }
     }
   ]
-
 }
